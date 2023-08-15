@@ -11,11 +11,10 @@ from pathlib import Path
 
 import tensorflow as tf
 from data.make_dataset import get_data_frame, get_X_y
+from models.train_model import get_model_trained
 from sklearn.calibration import LabelEncoder
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.model_selection import train_test_split
-from tensorflow.keras import Sequential
-from tensorflow.keras.layers import Dense, Dropout
 from visualization.visualize import plot_model_train_val_losses
 
 if __name__ == '__main__':
@@ -31,22 +30,11 @@ if __name__ == '__main__':
 
     X_train, X_test, y_train, y_test = train_test_split(X, y, train_size=.8)
 
-
 # =============================================================================
 # TensorFlow: Deep Learning
 # =============================================================================
-    model = Sequential()
-    model.add(
-        Dense(
-            64,
-            input_dim=X.shape[1],
-            kernel_initializer='he_uniform',
-            activation='sigmoid'
-        )
-    )
-    model.add(Dropout(.05))
-    model.add(Dense(4))
-    model.compile(optimizer='adam', loss='mae')
+    model = get_model_trained(X)
+
 # =============================================================================
 # Architecture
 # =============================================================================
